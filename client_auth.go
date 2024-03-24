@@ -46,7 +46,7 @@ func (p *PasswordAuth) Handshake(c net.Conn) error {
 
 	crypted, err := p.encrypt(p.Password, randomValue)
 
-	if (err != nil) {
+	if err != nil {
 		return err
 	}
 
@@ -97,7 +97,7 @@ func (p *PasswordAuth) reverseBits(b byte) byte {
 }
 
 func (p *PasswordAuth) encrypt(key string, bytes []byte) ([]byte, error) {
-	keyBytes := []byte{0,0,0,0,0,0,0,0}
+	keyBytes := []byte{0, 0, 0, 0, 0, 0, 0, 0}
 
 	if len(key) > 8 {
 		key = key[:8]
@@ -121,4 +121,15 @@ func (p *PasswordAuth) encrypt(key string, bytes []byte) ([]byte, error) {
 	crypted := append(result1, result2...)
 
 	return crypted, nil
+}
+
+type VencryptAuth struct {
+}
+
+func (*VencryptAuth) SecurityType() uint8 {
+	return 19
+}
+
+func (*VencryptAuth) Handshake(net.Conn) error {
+	return nil
 }
